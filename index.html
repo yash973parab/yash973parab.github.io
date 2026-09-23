@@ -101,6 +101,24 @@ h1.name{font-family:var(--serif);font-weight:600;font-size:clamp(44px,8vw,88px);
 .loc{margin-top:26px;font-size:13.5px;color:var(--ink-faint)}
 
 /* =========================================================================
+   LOGO STRIP
+   ========================================================================= */
+.logos{display:flex;align-items:center;gap:30px;flex-wrap:wrap;padding:20px 24px;
+  border:1px solid var(--line);border-radius:12px;background:var(--bg-raised);margin:12px 0 10px}
+.logos .lbl{font-size:11.5px;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--ink-faint);font-weight:700;flex:none;margin-right:4px}
+.logo{display:flex;align-items:center;height:32px;text-decoration:none}
+.logo img{max-height:100%;max-width:125px;width:auto;object-fit:contain;
+  filter:grayscale(1) opacity(.45);
+  transition:filter .35s var(--ease),transform .35s var(--ease)}
+.logo:hover img{filter:grayscale(0) opacity(1);transform:translateY(-2px)}
+html[data-theme="dark"] .logo img{filter:grayscale(1) opacity(.5) brightness(1.7)}
+html[data-theme="dark"] .logo.inv img{filter:grayscale(1) opacity(.6) invert(1)}
+html[data-theme="dark"] .logo:hover img{filter:grayscale(0) opacity(1)}
+html[data-theme="dark"] .logo.inv:hover img{filter:invert(1) brightness(1.4)}
+@media(max-width:620px){.logos{gap:20px;padding:16px}.logo{height:26px}}
+
+/* =========================================================================
    STAT BAND
    ========================================================================= */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--bg-raised);margin:12px 0 20px}
@@ -183,7 +201,9 @@ section{padding:60px 0;border-top:1px solid var(--line)}
 .tl-org{font-size:14px;color:var(--accent);margin-top:2px;font-weight:500}
 .tl-item ul{margin:12px 0 0;padding-left:18px}
 .tl-item li{font-size:14px;color:var(--ink-soft);margin:5px 0}
-
+.tl-item{border:1px solid transparent;border-radius:10px;padding:14px 16px;margin-left:-16px;
+  transition:border-color .25s var(--ease),background .25s var(--ease)}
+.tl-item:hover{border-color:var(--line-strong);background:var(--bg-raised)}
 /* =========================================================================
    CONTACT
    ========================================================================= */
@@ -235,16 +255,17 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--ink-fain
 
 <span id="top"></span>
 
+
 <!-- ========================= HERO ========================= -->
 <div class="wrap">
   <section class="hero" style="border-top:0">
     <div class="eyebrow reveal">
       <span data-i18n="hero_kicker">Market &amp; Strategy · Entrepreneurial Finance · Data &amp; ML Analytics · Process &amp; Operations</span>
     </div>
-    <div class="reveal"><span class="avail"><span class="pulse"></span><span data-i18n="hero_avail">Open to full-time & working-student roles</span></span></div>
+    <div class="reveal"><span class="avail"><span class="pulse"></span><span data-i18n="hero_avail">Available immediately · Open to full-time &/ contract roles</span></span></div>
     <h1 class="name reveal">Yash Parab</h1>
     <div class="rotor reveal" id="rotor"></div>
-    <p class="lede reveal" data-i18n="hero_lede">I turn messy market, patent, and financial data into decisions people can act on — market intelligence, strategy models, and live ML tools, built end to end.</p>
+    <p class="lede reveal" data-i18n="hero_lede">I turn messy market, patent, and financial data into decisions people can act on - market intelligence, strategy models, and live ML tools, built end to end.</p>
     <div class="cta-row reveal">
       <a href="#work" class="btn btn-primary" data-i18n="hero_cta1">Explore the work →</a>
       <a href="#contact" class="btn btn-ghost" data-i18n="hero_cta2">Get in touch</a>
@@ -252,6 +273,9 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--ink-fain
     <div class="loc reveal" data-i18n="hero_loc">Aachen, Germany</div>
   </section>
 
+  <!-- LOGO STRIP -->
+  <div class="logos reveal" id="logos"></div>
+  
   <!-- STAT BAND -->
   <div class="stats reveal" id="stats"></div>
 </div>
@@ -316,7 +340,7 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--ink-fain
 <div class="wrap">
   <footer>
     <span>© <span id="yr"></span> Yash Parab</span>
-    <span data-i18n="foot_built">Built to be edited — add a project by copying one object in the data block.</span>
+    <span data-i18n="foot_built">Built to be edited — add a project by copying one object in the data block.</span> -->
   </footer>
 </div>
 
@@ -332,12 +356,21 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--ink-fain
 
 const DATA = {
   rotor: ["Market & Strategy","Entrepreneurial Finance","Data & ML Analytics","Process & Operations"],
-
+  
+  logosLabel:{en:"Background",de:"Hintergrund"},
+  logos:[
+    { name:"Fraunhofer FHR",    src:"logos/fraunhofer fhr.png",  url:"https://www.fhr.fraunhofer.de/" },
+    { name:"TIME Institute",    src:"logos/time.png",        url:"" },
+    { name:"PEM RWTH",          src:"logos/pem rwth.png",         url:"" },
+    { name:"RWTH Aachen University", src:"logos/rwth aachen.png",   url:"https://www.rwth-aachen.de/" },
+    { name:"R.K. Control Instruments", src:"logos/rk control.png", url:"" },
+  ],
+  
   stats: [
-    { big:"20+",  lbl:{en:"market intelligence reports",de:"Marktanalyse-Berichte"}, hov:{en:"Fraunhofer FHR — high-tech sectors, exec presentations",de:"Fraunhofer FHR — Hightech-Sektoren, Management-Präsentationen"} },
-    { big:"2 live apps", lbl:{en:"ML tools shipped",de:"ML-Tools veröffentlicht"}, hov:{en:"BA3F angel classifier + Earnings Reaction Predictor",de:"BA3F Angel-Classifier + Earnings Reaction Predictor"} },
+    { big:"25+",  lbl:{en:"Market/Business Intelligence Reports",de:"Marktanalyse-Berichte"}, hov:{en:"Fraunhofer FHR - High-tech sectors, Executive presentations",de:"Fraunhofer FHR — Hightech-Sektoren, Management-Präsentationen"} },
+    { big:"2 Live Apps", lbl:{en:"AI/ML Tools deployed",de:"AL/ML-Tools veröffentlicht"}, hov:{en:"BA3F Angel Classifier | Earnings Reaction Predictor",de:"BA3F Angel-Classifier · Earnings Reaction Predictor"} },
     { big:"~90%", lbl:{en:"scouting time cut",de:"Scouting-Zeit reduziert"}, hov:{en:"Custom Python scraper across ~3K events, ~700 leads",de:"Python-Scraper über ~3K Events, ~700 Leads"} },
-    { big:"1.7",  lbl:{en:"M.Sc. GPA · RWTH Aachen",de:"M.Sc. Note · RWTH Aachen"}, hov:{en:"Management & Engineering (CAME), 2022–2026",de:"Management & Engineering (CAME), 2022–2026"} },
+    { big:"1.7",  lbl:{en:"M.Sc. GPA · RWTH Aachen",de:"M.Sc. Note · RWTH Aachen"}, hov:{en:"Management & Engineering, 2022–2026",de:"Wirtschaftsingenieurwesen, 2022–2026"} },
   ],
 
   chapters: [
@@ -349,7 +382,7 @@ const DATA = {
         { name:{en:"Fraunhofer FHR — Market Intelligence",de:"Fraunhofer FHR — Marktintelligenz"}, meta:"2025–present",
           desc:{en:"End-to-end market intelligence on high-tech sectors: New Space, military drones, electronic warfare, urban mobility, AI-intralogistics.",de:"Marktintelligenz für Hightech-Sektoren: New Space, Militärdrohnen, elektronische Kampfführung, urbane Mobilität, KI-Intralogistik."},
           points:[
-            {en:"20+ market intelligence reports synthesised into strategy recommendations.",de:"20+ Marktberichte zu Strategieempfehlungen verdichtet."},
+            {en:"25+ market intelligence reports synthesised into strategy recommendations.",de:"25+ Marktberichte zu Strategieempfehlungen verdichtet."},
             {en:"Competitor & product profiling for 100+ companies using Yole and Frost & Sullivan.",de:"Wettbewerbs- & Produktprofile für 100+ Firmen mit Yole und Frost & Sullivan."},
             {en:"Mined 100M+ patents and publications for trends and innovation gaps (Python, R).",de:"100M+ Patente und Publikationen auf Trends und Innovationslücken analysiert (Python, R)."},
           ],
@@ -383,7 +416,7 @@ const DATA = {
             {en:"BA3F reads a public investor bio and returns a typology match plus pitch-tailoring guidance.",de:"BA3F liest eine öffentliche Investor-Bio und liefert Typ-Match plus Pitch-Empfehlungen."},
             {en:"Reduces founder guesswork on who, how, and what to pitch.",de:"Reduziert Rätselraten für Gründer: wen, wie und was pitchen."},
           ],
-          link:{label:{en:"Open BA3F live app",de:"BA3F Live-App öffnen"}, url:"#"},
+          link:{label:{en:"Open BA3F live app",de:"BA3F Live-App öffnen"}, url:"https://ba3f-business-angels-funding-fit-finder-soagfsyhk38hrt4a2sjbfd.streamlit.app/"},
           tags:["LLM","Classification","Venture Capital","Streamlit"] },
       ]
     },
@@ -399,7 +432,7 @@ const DATA = {
             {en:"Validated on 100% out-of-time 2026 data (pre-2026 train, unseen 2026 test).",de:"Validiert auf 100% Out-of-Time-2026-Daten (Training vor 2026, Test 2026)."},
             {en:"Interactive SHAP scenario-builder exposing drivers across 7 features.",de:"Interaktiver SHAP-Szenario-Builder zeigt Treiber über 7 Merkmale."},
           ],
-          link:{label:{en:"Open ERP live app",de:"ERP Live-App öffnen"}, url:"#"},
+          link:{label:{en:"Open ERP live app",de:"ERP Live-App öffnen"}, url:"https://erp-earnings-reaction-predictor-tbjsmdfarrn75uy2azukqm.streamlit.app/"},
           tags:["Machine Learning","SHAP","Python","Finance"] },
         { name:{en:"Patent & Publication Mining",de:"Patent- & Publikations-Mining"}, meta:"Fraunhofer FHR",
           desc:{en:"Trend and key-player extraction from 100M+ patents and publications.",de:"Trend- und Key-Player-Extraktion aus 100M+ Patenten und Publikationen."},
@@ -440,15 +473,15 @@ const DATA = {
 
   about: {
     lead:{
-      en:"I'm an <span class='hl'>Engineering Management</span> graduate from RWTH Aachen who sits where business strategy meets data. I like taking the messiest inputs — patents, investor bios, earnings data — and shipping something a decision-maker can actually use.",
-      de:"Ich bin <span class='hl'>Engineering-Management</span>-Absolvent der RWTH Aachen an der Schnittstelle von Strategie und Daten. Ich mag es, aus den unübersichtlichsten Inputs — Patente, Investor-Bios, Earnings-Daten — etwas zu bauen, das Entscheider wirklich nutzen können."
+      en:"I'm an <span class='hl'>Engineering Management</span> graduate from RWTH Aachen who sits where business strategy meets data. I like taking the messiest inputs from research - markets, patents, investor bios, earnings data - and deploying deliverables a decision-maker can actually use.",
+      de:"Ich bin <span class='hl'>Engineering-Management</span>-Absolvent der RWTH Aachen an der Schnittstelle von Strategie und Daten. Ich mag es, aus den unübersichtlichsten Inputs - Markte, Patente, Investor-Bios, Earnings-Daten - etwas zu bauen, das Entscheider wirklich nutzen können."
     },
     list:[
       {en:"Market & strategy research analyst at Fraunhofer FHR",de:"Markt- & Strategieanalyst bei Fraunhofer FHR"},
       {en:"Shipped two live LLM/ML apps: BA3F and ERP",de:"Zwei Live-LLM/ML-Apps veröffentlicht: BA3F und ERP"},
       {en:"Consulting-style casework: BCG, Mercedes, Sony, PwC",de:"Beratungsnahe Fallstudien: BCG, Mercedes, Sony, PwC"},
-      {en:"Python, R, Power BI, and a finance-first mindset",de:"Python, R, Power BI und ein Finance-First-Denken"},
-      {en:"Fluent English (C1), German (B1), Marathi & Hindi native",de:"Fließend Englisch (C1), Deutsch (B1), Marathi & Hindi Muttersprache"},
+      {en:"Advanced Excel, Python, R, Power BI, SAP S/4HANA and a finance-first mindset",de:"Advanced Excel, Python, R, Power BI, SAP S/4HANA und ein Finance-First-Denken"},
+      // {en:"Fluent English (C1), German (B1), Marathi & Hindi native",de:"Fließend Englisch (C1), Deutsch (B1), Marathi & Hindi Muttersprache"},
     ]
   },
 
@@ -456,7 +489,7 @@ const DATA = {
     { role:{en:"Business & Market Research Analyst (Working Student)",de:"Business- & Marktanalyst (Werkstudent)"},
       org:"Fraunhofer FHR (IHS Operations)", when:"Feb 2025 – present", place:"Wachtberg, DE",
       points:[
-        {en:"20+ end-to-end market intelligence reports on high-tech sectors.",de:"20+ End-to-End-Marktberichte zu Hightech-Sektoren."},
+        {en:"25+ end-to-end market intelligence reports on high-tech sectors.",de:"25+ End-to-End-Marktberichte zu Hightech-Sektoren."},
         {en:"Strategic reports and executive presentations for 100+ competitors.",de:"Strategieberichte und Management-Präsentationen für 100+ Wettbewerber."},
         {en:"Custom Python scraper cut scouting ~90%, surfaced ~700 leads across ~3K events.",de:"Python-Scraper reduzierte Scouting ~90%, ~700 Leads aus ~3K Events."},
       ] },
@@ -498,12 +531,12 @@ const DATA = {
 const I18N = {
   en:{ brand:"Yash <b>Parab</b>", nav_work:"Work", nav_about:"About", nav_exp:"Experience", nav_edu:"Education", nav_contact:"Contact",
     hero_kicker:"Market & Strategy · Entrepreneurial Finance · Data & ML Analytics · Process & Operations",
-    hero_avail:"Open to full-time & working-student roles",
-    hero_lede:"I turn messy market, patent, and financial data into decisions people can act on — market intelligence, strategy models, and live ML tools, built end to end.",
+    hero_avail:"Available immediately · Open to full-time &/ contract roles",
+    hero_lede:"I turn messy market, patent, and financial data into decisions people can act on - market intelligence, strategy models, and live ML tools, built end to end.",
     hero_cta1:"Explore the work →", hero_cta2:"Get in touch", hero_loc:"Aachen, Germany",
     work_kicker:"FOUR AREAS, ONE THROUGHLINE", work_title:"Turning data into business decisions",
     work_sub:"From market intelligence to live ML apps — pick an area to see the projects inside it.",
-    about_kicker:"ABOUT", about_title:"Engineering Management, with a builder's habit",
+    about_kicker:"ABOUT", about_title:"Engineering Management, with curiosity in Business and utility in AI",
     exp_kicker:"EXPERIENCE", exp_title:"Where I've worked",
     edu_kicker:"EDUCATION", edu_title:"Studies & credentials",
     contact_kicker:"CONTACT", contact_title:"Let's talk",
@@ -516,7 +549,7 @@ const I18N = {
     hero_cta1:"Arbeit ansehen →", hero_cta2:"Kontakt aufnehmen", hero_loc:"Aachen, Deutschland",
     work_kicker:"VIER BEREICHE, EIN ROTER FADEN", work_title:"Aus Daten werden Entscheidungen",
     work_sub:"Von Marktintelligenz bis zu Live-ML-Apps — wähle einen Bereich, um die Projekte zu sehen.",
-    about_kicker:"ÜBER MICH", about_title:"Engineering Management, mit Bau-Instinkt",
+    about_kicker:"ÜBER MICH", about_title:"Engineering Management, Neugier in der Wirtschaft und Nutzen der KI",
     exp_kicker:"ERFAHRUNG", exp_title:"Wo ich gearbeitet habe",
     edu_kicker:"AUSBILDUNG", edu_title:"Studium & Qualifikationen",
     contact_kicker:"KONTAKT", contact_title:"Sprechen wir",
@@ -607,8 +640,20 @@ function applyI18nStrings(){
   document.documentElement.lang=LANG;
 }
 
+function renderLogos(){
+  const c=document.getElementById("logos");if(!c)return;c.innerHTML="";
+  c.appendChild(el("span","lbl",t(DATA.logosLabel)));
+  DATA.logos.forEach(l=>{
+    const box=el(l.url?"a":"div","logo"+(l.invertDark?" inv":""));
+    if(l.url){box.href=l.url;box.target="_blank";box.rel="noopener";}
+    box.title=l.name;
+    box.innerHTML=`<img src="${l.src}" alt="${l.name}" loading="lazy">`;
+    c.appendChild(box);
+  });
+}
+
 function renderAll(){
-  applyI18nStrings();renderStats();renderChapters();renderAbout();
+  applyI18nStrings();renderStats();renderLogos();renderChapters();renderAbout();
   renderTimeline("exp",DATA.experience,false);
   renderTimeline("edu",DATA.education,true);
   renderContact();
