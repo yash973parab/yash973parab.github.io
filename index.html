@@ -19,12 +19,21 @@
   --mono:"SFMono-Regular",Menlo,Consolas,monospace;
   --maxw:1080px; --ease:cubic-bezier(.22,.61,.36,1);
 }
-html[data-theme="dark"]{
+/* html[data-theme="dark"]{
   --bg:#12141a; --bg-raised:#1a1d26; --ink:#eef0f4; --ink-soft:#aab2c2;
   --ink-faint:#6f7889; --line:#262a35; --line-strong:#333846;
   --accent:#f97316; --accent-soft:#3a2415; --accent-ink:#fbbf74;
   --chip:#22262f; --chip-ink:#f0c9a8; --shadow:24px 24px 60px rgba(0,0,0,.4);
+} */
+html[data-theme="dark"]{
+  --bg:#0b1220; --bg-raised:#111a2b; --ink:#eef2f8; --ink-soft:#a7b2c4;
+  --ink-faint:#68748a; --line:#1e293c; --line-strong:#2c3a52;
+  --accent:#4191e6; --accent-2:#6aa9ec; --accent-soft:#14263f; --accent-ink:#9cc5f0;
+  --chip:#182338; --chip-ink:#9fb6d6; --shadow:0 18px 50px rgba(0,0,0,.45);
+  /* the trick: serif headlines become corporate sans in dark mode only */
+  --serif:"Inter","Helvetica Neue","Segoe UI",Arial,system-ui,sans-serif;
 }
+
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
@@ -193,8 +202,6 @@ section{padding:60px 0;border-top:1px solid var(--line)}
 .tl::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line-strong)}
 .tl-item{position:relative;padding:0 0 30px}
 .tl-item:last-child{padding-bottom:0}
-.tl-item::before{content:"";position:absolute;left:-30px;top:6px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:3px solid var(--accent);transform:translateX(0)}
-.tl-item.edu::before{border-color:var(--ink-faint)}
 .tl-top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline}
 .tl-role{font-weight:650;font-size:16.5px}
 .tl-when{font-size:12.5px;color:var(--ink-faint);font-family:var(--mono);white-space:nowrap}
@@ -262,7 +269,7 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--ink-fain
     <div class="eyebrow reveal">
       <span data-i18n="hero_kicker">Market &amp; Strategy · Entrepreneurial Finance · Data &amp; ML Analytics · Process &amp; Operations</span>
     </div>
-    <div class="reveal"><span class="avail"><span class="pulse"></span><span data-i18n="hero_avail">Available immediately · Open to full-time &/ contract roles</span></span></div>
+    <div class="reveal"><span class="avail"><span class="pulse"></span><span data-i18n="hero_avail">Available immediately · Open to full-time & contract roles</span></span></div>
     <h1 class="name reveal">Yash Parab</h1>
     <div class="rotor reveal" id="rotor"></div>
     <p class="lede reveal" data-i18n="hero_lede">I turn messy market, patent, and financial data into decisions people can act on - market intelligence, strategy models, and live ML tools, built end to end.</p>
@@ -322,6 +329,21 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--ink-fain
   </section>
 </div>
 
+<!-- ========================= RESUME ========================= -->
+<div class="wrap">
+  <section id="resume">
+    <div class="sec-head reveal">
+      <div class="sec-kicker" data-i18n="res_kicker">RESUME</div>
+      <h2 class="sec-title" data-i18n="res_title">Resume</h2>
+      <p class="sec-sub" data-i18n="res_sub">Grab a copy, or have it sent to your inbox.</p>
+    </div>
+    <div class="res-row reveal">
+      <a href="Yash_Parab_MasterCV.pdf" download="Yash_Parab_CV.pdf" class="btn btn-primary" data-i18n="res_dl">Download PDF</a>
+      <a href="mailto:yash.parab@rwth-aachen.de?subject=CV%20request&body=Hi%20Yash%2C%20could%20you%20send%20me%20your%20CV%3F" class="btn btn-ghost" data-i18n="res_mail">Email it to me</a>
+    </div>
+  </section>
+</div>
+
 <!-- ========================= CONTACT ========================= -->
 <div class="wrap">
   <section id="contact" style="padding-bottom:70px">
@@ -329,18 +351,14 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--ink-fain
       <div class="sec-kicker" data-i18n="contact_kicker">CONTACT</div>
       <h2 class="sec-title" data-i18n="contact_title">Let's talk</h2>
       <p class="sec-sub" data-i18n="contact_sub">Open to roles in market research, strategy, finance, and data analytics.</p>
-      <div class="res-row" style="margin-top:22px">
-        <a href="Yash_Parab_MasterCV.pdf" class="btn btn-primary" download data-i18n="contact_cv">Download CV (PDF)</a>
-      </div>
-      <div class="contact-grid" id="contact"></div>
+      <div class="contact-grid" id="contactgrid"></div>
     </div>
   </section>
 </div>
 
 <div class="wrap">
   <footer>
-    <span>© <span id="yr"></span> Yash Parab</span>
-    <span data-i18n="foot_built">Built to be edited — add a project by copying one object in the data block.</span> -->
+    <span>© <span id="yr"></span> Yash Parab | All rights reserved</span>
   </footer>
 </div>
 
@@ -355,7 +373,10 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--ink-fain
    ========================================================================= */
 
 const DATA = {
-  rotor: ["Market & Strategy","Entrepreneurial Finance","Data & ML Analytics","Process & Operations"],
+  rotor: {
+    en:["Market & Strategy","Entrepreneurial Finance","Data & ML Analytics","Process & Operations"],
+    de:["Märkte & Strategie","Entrepreneurial Finance","Daten & ML-Analytik","Prozesse & Operations"],
+  },
   
   logosLabel:{en:"Background",de:"Hintergrund"},
   logos:[
@@ -367,8 +388,8 @@ const DATA = {
   ],
   
   stats: [
-    { big:"25+",  lbl:{en:"Market/Business Intelligence Reports",de:"Marktanalyse-Berichte"}, hov:{en:"Fraunhofer FHR - High-tech sectors, Executive presentations",de:"Fraunhofer FHR — Hightech-Sektoren, Management-Präsentationen"} },
-    { big:"2 Live Apps", lbl:{en:"AI/ML Tools deployed",de:"AL/ML-Tools veröffentlicht"}, hov:{en:"BA3F Angel Classifier | Earnings Reaction Predictor",de:"BA3F Angel-Classifier · Earnings Reaction Predictor"} },
+    { big:"25+",  lbl:{en:"Market/Business Intelligence Reports",de:"Markt- & Business-Intelligence-Berichte"}, hov:{en:"Fraunhofer FHR - High-tech sectors, Executive presentations",de:"Fraunhofer FHR — Hightech-Sektoren, Management-Präsentationen"} },
+    { big:"2 Live Apps", lbl:{en:"AI/ML Tools deployed",de:"KI/ML-Tools veröffentlicht"}, hov:{en:"BA3F Angel Classifier | Earnings Reaction Predictor",de:"BA3F Angel-Classifier · Earnings Reaction Predictor"} },
     { big:"~90%", lbl:{en:"scouting time cut",de:"Scouting-Zeit reduziert"}, hov:{en:"Custom Python scraper across ~3K events, ~700 leads",de:"Python-Scraper über ~3K Events, ~700 Leads"} },
     { big:"1.7",  lbl:{en:"M.Sc. GPA · RWTH Aachen",de:"M.Sc. Note · RWTH Aachen"}, hov:{en:"Management & Engineering, 2022–2026",de:"Wirtschaftsingenieurwesen, 2022–2026"} },
   ],
@@ -474,7 +495,7 @@ const DATA = {
   about: {
     lead:{
       en:"I'm an <span class='hl'>Engineering Management</span> graduate from RWTH Aachen who sits where business strategy meets data. I like taking the messiest inputs from research - markets, patents, investor bios, earnings data - and deploying deliverables a decision-maker can actually use.",
-      de:"Ich bin <span class='hl'>Engineering-Management</span>-Absolvent der RWTH Aachen an der Schnittstelle von Strategie und Daten. Ich mag es, aus den unübersichtlichsten Inputs - Markte, Patente, Investor-Bios, Earnings-Daten - etwas zu bauen, das Entscheider wirklich nutzen können."
+      de:"Ich bin <span class='hl'>Engineering-Management</span>-Absolvent der RWTH Aachen an der Schnittstelle von Strategie und Daten. Ich mag es, aus den unübersichtlichsten Inputs - Märkte, Patente, Investor-Bios, Earnings-Daten - etwas zu bauen, das Entscheider wirklich nutzen können."
     },
     list:[
       {en:"Market & strategy research analyst at Fraunhofer FHR",de:"Markt- & Strategieanalyst bei Fraunhofer FHR"},
@@ -531,7 +552,7 @@ const DATA = {
 const I18N = {
   en:{ brand:"Yash <b>Parab</b>", nav_work:"Work", nav_about:"About", nav_exp:"Experience", nav_edu:"Education", nav_contact:"Contact",
     hero_kicker:"Market & Strategy · Entrepreneurial Finance · Data & ML Analytics · Process & Operations",
-    hero_avail:"Available immediately · Open to full-time &/ contract roles",
+    hero_avail:"Available immediately · Open to full-time & contract roles",
     hero_lede:"I turn messy market, patent, and financial data into decisions people can act on - market intelligence, strategy models, and live ML tools, built end to end.",
     hero_cta1:"Explore the work →", hero_cta2:"Get in touch", hero_loc:"Aachen, Germany",
     work_kicker:"FOUR AREAS, ONE THROUGHLINE", work_title:"Turning data into business decisions",
@@ -540,21 +561,21 @@ const I18N = {
     exp_kicker:"EXPERIENCE", exp_title:"Where I've worked",
     edu_kicker:"EDUCATION", edu_title:"Studies & credentials",
     contact_kicker:"CONTACT", contact_title:"Let's talk",
-    contact_sub:"Open to roles in market research, strategy, finance, and data analytics.",
-    contact_cv:"Download CV (PDF)", foot_built:"Built to be edited — add a project by copying one object in the data block." },
+    contact_sub:"Open to roles in market research, business strategy, ai engineering, data analytics, and entrepreneurial finance.",
+    res_kicker:"RESUME", res_title:"Resume", res_sub:"Grab a copy, or have it sent to your inbox.", res_dl:"Download PDF", res_mail:"Email it to me"},
   de:{ brand:"Yash <b>Parab</b>", nav_work:"Arbeit", nav_about:"Über mich", nav_exp:"Erfahrung", nav_edu:"Ausbildung", nav_contact:"Kontakt",
-    hero_kicker:"Markt & Strategie · Entrepreneurial Finance · Daten & ML · Prozesse & Operations",
-    hero_avail:"Offen für Voll- & Werkstudentenstellen",
+    hero_kicker:"Markt & Strategie · Entrepreneurial Finance · Daten & ML-Analytik · Prozesse & Operations",
+    hero_avail:"Sofort verfügbar · Offen für Festanstellung & freie Mitarbeit",
     hero_lede:"Ich mache aus unübersichtlichen Markt-, Patent- und Finanzdaten umsetzbare Entscheidungen — Marktintelligenz, Strategiemodelle und Live-ML-Tools, end-to-end gebaut.",
     hero_cta1:"Arbeit ansehen →", hero_cta2:"Kontakt aufnehmen", hero_loc:"Aachen, Deutschland",
     work_kicker:"VIER BEREICHE, EIN ROTER FADEN", work_title:"Aus Daten werden Entscheidungen",
     work_sub:"Von Marktintelligenz bis zu Live-ML-Apps — wähle einen Bereich, um die Projekte zu sehen.",
-    about_kicker:"ÜBER MICH", about_title:"Engineering Management, Neugier in der Wirtschaft und Nutzen der KI",
+    about_kicker:"ÜBER MICH", about_title:"Engineering Management, mit Neugier für Wirtschaft und Sinn für KI",
     exp_kicker:"ERFAHRUNG", exp_title:"Wo ich gearbeitet habe",
     edu_kicker:"AUSBILDUNG", edu_title:"Studium & Qualifikationen",
     contact_kicker:"KONTAKT", contact_title:"Sprechen wir",
-    contact_sub:"Offen für Rollen in Marktforschung, Strategie, Finance und Data Analytics.",
-    contact_cv:"Lebenslauf (PDF)", foot_built:"Zum Bearbeiten gebaut — Projekt hinzufügen durch Kopieren eines Objekts im Datenblock." },
+    contact_sub:"Offen für Rollen in Marktforschung, Geschäftsstrategie, KI-engineering, Datenanalysierung, und Entrepreneurial Finance.",
+    res_kicker:"LEBENSLAUF", res_title:"Lebenslauf", res_sub:"Kopie herunterladen oder per E-Mail zusenden lassen.", res_dl:"PDF herunterladen", res_mail:"Per E-Mail senden"},
 };
 
 /* =========================================================================
@@ -624,7 +645,7 @@ function renderTimeline(id,arr,isEdu){
 }
 
 function renderContact(){
-  const c=document.getElementById("contact");c.innerHTML="";
+    const c=document.getElementById("contactgrid");c.innerHTML="";
   DATA.contact.forEach(x=>{
     const a=el("a","cc");a.href=x.url;if(x.url.startsWith("http"))a.target="_blank";
     a.innerHTML=`<span class="ico">${x.ico}</span><span><span class="k">${x.k}</span><br><span class="v">${x.v}</span></span>`;
@@ -662,11 +683,15 @@ function renderAll(){
 /* =========================================================================
    ROTOR (rotating headline word)
    ========================================================================= */
+let rotorTimer=null;
 function initRotor(){
-  const r=document.getElementById("rotor");r.innerHTML="";
-  const spans=DATA.rotor.map((w,i)=>{const s=el("span",i===0?"show":null,w);r.appendChild(s);return s;});
+  const r=document.getElementById("rotor");if(!r)return;
+  clearInterval(rotorTimer);          // stop the previous cycle before starting a new one
+  r.innerHTML="";
+  const words=t(DATA.rotor);
+  const spans=words.map((w,i)=>{const s=el("span",i===0?"show":null,w);r.appendChild(s);return s;});
   let idx=0;
-  setInterval(()=>{
+  rotorTimer=setInterval(()=>{
     spans[idx].classList.remove("show");
     idx=(idx+1)%spans.length;
     spans[idx].classList.add("show");
@@ -679,7 +704,7 @@ function initRotor(){
 function initTheme(){
   const cord=document.getElementById("cord");
   const set=(th)=>{document.documentElement.setAttribute("data-theme",th);};
-  const start = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark":"light";
+  const start = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "dark":"light";
   set(start);
   const toggle=()=>{
     const now=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";
@@ -697,7 +722,8 @@ function initLang(){
       document.querySelectorAll(".lang button").forEach(x=>x.classList.remove("on"));
       b.classList.add("on");
       LANG=b.getAttribute("data-lang");
-      renderAll();
+      renderAll()
+      initRotor();
       // rebuild rotor text in new language? rotor words are language-neutral labels; keep as is
       requestAnimationFrame(()=>{const f=document.querySelector(".chapter.open .ch-body");if(f)f.style.maxHeight=f.scrollHeight+"px";});
     });
