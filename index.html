@@ -128,6 +128,47 @@ html[data-theme="dark"] .logo.inv:hover img{filter:invert(1) brightness(1.4)}
 @media(max-width:620px){.logos{gap:20px;padding:16px}.logo{height:26px}}
 
 /* =========================================================================
+   CHATBOX
+   ========================================================================= */
+.term{border-radius:14px;overflow:hidden;background:#12141c;border:1px solid #232735;
+  box-shadow:0 24px 60px rgba(0,0,0,.18);margin:26px 0 8px;font-family:var(--mono)}
+.term-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#191c26;border-bottom:1px solid #232735}
+.tl-dot{width:12px;height:12px;border-radius:50%;flex:none}
+.tl-dot.r{background:#ff5f57}.tl-dot.y{background:#febc2e}.tl-dot.g{background:#28c840}
+.term-name{color:#8c93a5;font-size:13px;margin-left:8px}
+.term-live{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:11.5px;
+  letter-spacing:1.2px;color:#28c840;font-weight:700}
+.term-live i{width:7px;height:7px;border-radius:50%;background:#28c840;animation:pulse 2s infinite;display:inline-block}
+
+.term-log{padding:20px 18px;min-height:210px;max-height:340px;overflow-y:auto;font-size:13.5px;line-height:1.75}
+.term-log::-webkit-scrollbar{width:8px}
+.term-log::-webkit-scrollbar-thumb{background:#2b3142;border-radius:4px}
+.msg{margin-bottom:14px;white-space:pre-wrap}
+.msg.bot{color:#c7cede}
+.msg.you{color:#7fb2e8}
+.msg.you::before{content:"> ";color:#4a5468}
+.msg .cursor{display:inline-block;width:7px;height:15px;background:#28c840;
+  vertical-align:-2px;margin-left:3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+
+.term-chips{padding:14px 18px;border-top:1px solid #232735;background:#141822}
+.chips-lbl{font-size:10.5px;letter-spacing:1.4px;color:#5d6577;font-weight:700;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:transparent;border:1px solid #2e3444;color:#9fb0cc;font-family:var(--mono);
+  font-size:12px;padding:7px 12px;border-radius:7px;cursor:pointer;transition:all .2s var(--ease)}
+.chip:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+
+.term-input{display:flex;align-items:center;gap:10px;padding:14px 18px;border-top:1px solid #232735}
+.term-input .pr{color:#4a5468;font-size:14px}
+.term-input input{flex:1;background:transparent;border:0;outline:0;color:#dce3ef;
+  font-family:var(--mono);font-size:13.5px}
+.term-input input::placeholder{color:#4e5668}
+.term-send{background:var(--accent);border:0;color:#fff;font-family:var(--sans);font-weight:650;
+  font-size:12.5px;padding:8px 18px;border-radius:7px;cursor:pointer;transition:opacity .2s}
+.term-send:hover{opacity:.88}
+@media(max-width:620px){.term-log{min-height:170px}.chip{font-size:11px;padding:6px 10px}}
+
+/* =========================================================================
    STAT BAND
    ========================================================================= */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--bg-raised);margin:12px 0 20px}
@@ -280,6 +321,25 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--ink-fain
     <div class="loc reveal" data-i18n="hero_loc">Aachen, Germany</div>
   </section>
 
+  <!-- CHATBOX -->
+  <div class="term reveal" id="term">
+    <div class="term-bar">
+      <span class="tl-dot r"></span><span class="tl-dot y"></span><span class="tl-dot g"></span>
+      <span class="term-name">ask-about-yash</span>
+      <span class="term-live"><i></i>LIVE</span>
+    </div>
+    <div class="term-log" id="termlog"></div>
+    <div class="term-chips">
+      <div class="chips-lbl" data-i18n="chat_chips">QUICK QUESTIONS</div>
+      <div class="chips" id="termchips"></div>
+    </div>
+    <div class="term-input">
+      <span class="pr">&gt;</span>
+      <input id="terminput" type="text" autocomplete="off" aria-label="Ask a question">
+      <button class="term-send" id="termsend" data-i18n="chat_send">Send</button>
+    </div>
+  </div>
+
   <!-- LOGO STRIP -->
   <div class="logos reveal" id="logos"></div>
   
@@ -378,6 +438,67 @@ const DATA = {
     de:["Märkte & Strategie","Entrepreneurial Finance","Daten & ML-Analytik","Prozesse & Operations"],
   },
   
+  chatIntro:{
+    en:"Hi friends — I'm Indy, a small assistant who's read Yash's CV and project notes. He built me, so I may be a little biased :), but I'll keep it accurate. Ask me anything about his work.",
+    de:"Hallo Leute — ich bin ein kleiner Assistent Indy, der Yashs Lebenslauf und Projektnotizen gelesen hat. Er hat mich gebaut, also bin ich vielleicht etwas voreingenommen :), aber ich bleibe sachlich. Frag mich alles über seine Arbeit."
+  },
+  chatFallback:{
+    en:"I don't have a good answer for that one. I only know what's in Yash's CV and project notes. Try one of the questions below, or email him directly at yash.parab@rwth-aachen.de / yash.mahadev.parab@gmail.com.",
+    de:"Darauf habe ich keine gute Antwort. Ich kenne nur Yashs Lebenslauf und Projektnotizen. Probier eine der Fragen unten, oder schreib ihm direkt an yash.parab@rwth-aachen.de / yash.mahadev.parab@gmail.com."
+  },
+
+  qa:[
+    { keys:["fraunhofer","fhr","current job","current role","working student","market intelligence","what does he do","aktuell","derzeit"],
+      q:{en:"What does he do at Fraunhofer FHR?",de:"Was macht er bei Fraunhofer FHR?"},
+      a:{en:"He's a Business & Market Research Analyst at Fraunhofer FHR (since Feb 2025), covering international high-tech sectors: New Space, military drones, electronic warfare, urban mobility and AI-intralogistics.\n\nHe's delivered 25+ end-to-end market intelligence reports, profiled 100+ competitors using sources like Yole and Frost & Sullivan, and mined 100M+ patents and publications with Python and R to surface technology trends and innovation gaps.\n\nThe one he's proudest of: a custom Python web scraper that cut manual scouting time by ~90% and surfaced ~700 target opportunities from ~3K events.",
+         de:"Er ist Business- & Marktanalyst bei Fraunhofer FHR (seit Feb. 2025) und deckt internationale Hightech-Sektoren ab: New Space, Militärdrohnen, elektronische Kampfführung, urbane Mobilität und KI-Intralogistik.\n\nEr hat 25+ End-to-End-Marktberichte erstellt, 100+ Wettbewerber mit Quellen wie Yole und Frost & Sullivan profiliert und 100M+ Patente und Publikationen mit Python und R analysiert.\n\nSein Highlight: ein Python-Web-Scraper, der die manuelle Recherchezeit um ~90% reduzierte und ~700 Zielkontakte aus ~3K Events identifizierte."} },
+
+    { keys:["ba3f","business angel","thesis","master thesis","masterarbeit","angel","investor"],
+      q:{en:"What is BA3F, his thesis app?",de:"Was ist BA3F, seine Thesis-App?"},
+      a:{en:"BA3F — Business Angels Funding Fit Finder — is the live app from his Master's thesis on typologies of business angels.\n\nThe research analysed the informal venture capital market across 5 databases and identified 5 typological dimensions: demographics, experience, psychology, investment style and organisation, mapping behavioural differences in risk tolerance and syndication preferences.\n\nHe then operationalised that framework into an LLM-powered classifier: it reads a public investor bio and returns a typology match plus pitch-tailoring guidance — so founders spend less time guessing who to pitch, how, and with what.",
+         de:"BA3F — Business Angels Funding Fit Finder — ist die Live-App aus seiner Masterarbeit über Typologien von Business Angels.\n\nDie Forschung analysierte den informellen Venture-Capital-Markt über 5 Datenbanken und identifizierte 5 Typologie-Dimensionen: Demografie, Erfahrung, Psychologie, Investmentstil und Organisation.\n\nDaraus baute er einen LLM-gestützten Classifier: Er liest eine öffentliche Investor-Bio und liefert einen Typ-Match plus Pitch-Empfehlungen — damit Gründer weniger raten müssen, wen sie wie ansprechen."} },
+
+    { keys:["earnings","erp","predictor","stock","shap","aktien","machine learning","ml model"],
+      q:{en:"What is the Earnings Reaction Predictor?",de:"Was ist der Earnings Reaction Predictor?"},
+      a:{en:"ERP is a personal project: a dual-model ML pipeline that forecasts both the direction and the magnitude of post-earnings stock moves.\n\nIt covers 403 earnings events across 51 US companies and 10 sectors. The part he'd want you to notice is the validation — it's tested on 100% out-of-time data (trained pre-2026, tested on unseen 2026 events), which is a much harder bar than a random split.\n\nIt ships with an interactive SHAP scenario-builder so you can see which of the 7 features drive any given forecast, rather than taking the number on faith.",
+         de:"ERP ist ein privates Projekt: eine ML-Pipeline aus zwei Modellen, die Richtung und Ausmaß von Kursbewegungen nach Quartalszahlen prognostiziert.\n\nSie deckt 403 Earnings-Events über 51 US-Unternehmen und 10 Sektoren ab. Wichtig ist die Validierung: getestet auf 100% Out-of-Time-Daten (Training vor 2026, Test auf ungesehenen 2026-Events).\n\nDazu kommt ein interaktiver SHAP-Szenario-Builder, der zeigt, welche der 7 Merkmale eine Prognose treiben."} },
+
+    { keys:["tech stack","stack","tools","software","python","power bi","skills","programming","tableau","sql"],
+      q:{en:"What's his tech stack?",de:"Was ist sein Tech-Stack?"},
+      a:{en:"Analysis & visualisation: Excel, Power BI, Tableau, Think Cell.\nProgramming: Python (Pandas, NumPy, Matplotlib), R (Tidyverse), MySQL, MATLAB.\nAI tools: Claude, Gemini, Perplexity, ChatGPT — used for automated reporting, research synthesis and workflow speed.\nPM & CRM: SAP, S/4HANA, Confluence, Jira, Miro, Agile/Scrum.\nAlso: PowerPoint, SharePoint, LaTeX, SolidWorks, AutoCAD.\n\nWorth noting he's a business person who codes, not a software engineer — the code exists to answer commercial questions faster.",
+         de:"Analyse & Visualisierung: Excel, Power BI, Tableau, Think Cell.\nProgrammierung: Python (Pandas, NumPy, Matplotlib), R (Tidyverse), MySQL, MATLAB.\nKI-Tools: Claude, Gemini, Perplexity, ChatGPT — für automatisiertes Reporting und Recherche.\nPM & CRM: SAP, S/4HANA, Confluence, Jira, Miro, Agile/Scrum.\nAußerdem: PowerPoint, SharePoint, LaTeX, SolidWorks, AutoCAD.\n\nWichtig: Er ist ein Business-Mensch, der programmiert — nicht Softwareentwickler. Der Code dient schnelleren Geschäftsantworten."} },
+
+    { keys:["education","study","studied","degree","university","rwth","master","bachelor","somaiya","studium","ausbildung","gpa","grade"],
+      q:{en:"What's his educational background?",de:"Was ist sein Bildungshintergrund?"},
+      a:{en:"M.Sc. Management & Engineering (CAME) at RWTH Aachen University, Oct 2022 – Mar 2026, CGPA 1.7. Relevant coursework: Strategy Management, AI & Data Analytics, Finance Management, Marketing.\n\nBefore that, B.Tech. Mechanical Engineering at KJ Somaiya College of Engineering, Mumbai University (2016–2020), CGPA 1.4 German equivalent. His bachelor thesis was an amphibious waste collector robot — design and simulation.",
+         de:"M.Sc. Management & Engineering (CAME) an der RWTH Aachen, Okt. 2022 – März 2026, Note 1,7. Schwerpunkte: Strategisches Management, KI & Data Analytics, Finance Management, Marketing.\n\nDavor B.Tech. Maschinenbau am KJ Somaiya College of Engineering, Mumbai University (2016–2020), Note 1,4 (dt. Äquivalent). Bachelorarbeit: ein amphibischer Müllsammler-Roboter."} },
+
+    { keys:["relocat","available","availability","hire him","notice","start","visa","umzug","verfügbar","where is he","based","location"],
+      q:{en:"Is he open to relocation?",de:"Ist er umzugsbereit?"},
+      a:{en:"He's based in Aachen, Germany and is available immediately, open to both full-time and contract roles.\n\nOn relocation: yes, he's open to it — within Germany and internationally. He's already relocated once from Mumbai to Aachen for his Master's, so it's not a hypothetical.\n\nFor specifics on timing or work authorisation, best to ask him directly at yash.parab@rwth-aachen.de.",
+         de:"Er lebt in Aachen und ist sofort verfügbar — offen für Festanstellung und freie Mitarbeit.\n\nZum Umzug: ja, grundsätzlich offen, innerhalb Deutschlands und international. Er ist bereits einmal von Mumbai nach Aachen für sein Masterstudium umgezogen.\n\nFür Details zu Zeitpunkt oder Arbeitserlaubnis schreib ihm direkt: yash.parab@rwth-aachen.de."} },
+
+    { keys:["consulting","bcg","mercedes","sony","pwc","case stud","strategy project","beratung","pricing"],
+      q:{en:"What consulting projects has he done?",de:"Welche Beratungsprojekte hat er gemacht?"},
+      a:{en:"Four worth mentioning:\n\nBCG (telecom) — market analysis for handset leasing across the US, Singapore and Korea, projecting ~4% profitability growth and ~2% revenue increase using method of comparables.\n\nMercedes-Benz — a data-driven pricing model for proprietary in-car navigation, estimating a $160–250M annual revenue opportunity, with the competitive landscape mapped via Porter's forces.\n\nSony (academic) — a B2B2C launch model from three years of fashion retail data, projecting €1.6B five-year revenue on a value-based subscription strategy.\n\nPwC — Power BI dashboards for churn and diversity KPIs across 5K+ survey responses.",
+         de:"Vier nennenswerte:\n\nBCG (Telekom) — Marktanalyse für Handset-Leasing über USA, Singapur und Korea, mit ~4% Gewinn- und ~2% Umsatzwachstum.\n\nMercedes-Benz — datengetriebenes Pricing-Modell für In-Car-Navigation, geschätztes Umsatzpotenzial 160–250 Mio. $, Wettbewerbsanalyse via Porters Modell.\n\nSony (akademisch) — B2B2C-Launch-Modell aus drei Jahren Fashion-Retail-Daten, €1,6 Mrd. Fünfjahresumsatz.\n\nPwC — Power-BI-Dashboards für Churn- und Diversitäts-KPIs aus 5K+ Umfrageantworten."} },
+
+    { keys:["pem","e-mobility","emobility","battery","esg","sustainab","nachhaltig","batterie","rk control","automation","optimization"],
+      q:{en:"What did he do before Fraunhofer?",de:"Was hat er vor Fraunhofer gemacht?"},
+      a:{en:"Two roles.\n\nAt PEM RWTH (Aug–Dec 2023) he was a Research Assistant in sustainability and business development: he built Power BI dashboards validating circular-economy models for 2nd-life batteries, identified 8–9% potential energy savings across 12+ e-mobility OEMs, and owned audit-ready ESG reporting across the EV battery value chain.\n\nBefore Germany, at R.K. Control Instruments in Thane, India (2020–2021), he was a Project Engineer in process automation — his headline result was an Excel-Python solution for 500+ engineering data files that cut cycle time from 15 minutes to 4 (~75%).",
+         de:"Zwei Stationen.\n\nBei PEM RWTH (Aug.–Dez. 2023) war er wissenschaftliche Hilfskraft für Nachhaltigkeit und Business Development: Power-BI-Dashboards für Second-Life-Batterie-Geschäftsmodelle, 8–9% Energieeinsparpotenzial über 12+ E-Mobility-OEMs, und audit-fähiges ESG-Reporting.\n\nDavor bei R.K. Control Instruments in Thane, Indien (2020–2021) als Projektingenieur für Prozessautomatisierung — eine Excel-Python-Lösung für 500+ Datendateien reduzierte die Zykluszeit von 15 auf 4 Minuten (~75%)."} },
+
+    { keys:["language","speak","german","deutsch","english","sprache","marathi","hindi"],
+      q:{en:"Which languages does he speak?",de:"Welche Sprachen spricht er?"},
+      a:{en:"English at C1 (fluent), German at B1 (intermediate and actively improving — he's been living and working in Germany since 2022), and Marathi and Hindi as native languages.\n\nHis working language at Fraunhofer is a mix, and this site exists in both English and German, which tells you something about how he handles it.",
+         de:"Englisch C1 (fließend), Deutsch B1 (fortgeschritten und aktiv im Ausbau — er lebt und arbeitet seit 2022 in Deutschland), sowie Marathi und Hindi als Muttersprachen.\n\nSeine Arbeitssprache bei Fraunhofer ist gemischt, und diese Seite gibt es auf Englisch und Deutsch — was einiges über seinen Umgang damit sagt."} },
+
+    { keys:["why hire","why should","strength","good fit","stand out","best","einstellen","warum"],
+      q:{en:"Why should I hire him?",de:"Warum sollte ich ihn einstellen?"},
+      a:{en:"I'm the portfolio bot, so treat this as a biased answer — but here's the honest case.\n\nMost market research analysts can write the report. Fewer can build the tool that generates it. Yash does both: he'll deliver the competitor profile AND write the scraper that cut 90% of the scouting time to get there.\n\nThat combination shows up repeatedly — the BA3F thesis didn't stop at a framework, it shipped as a working classifier. The earnings project didn't stop at a model, it shipped with SHAP explanations so a non-technical reader can interrogate it.\n\nIf you need someone who can sit between the business question and the data, and produce something usable at the end rather than a slide deck, that's the fit.\n\nIf you'd rather judge for yourself: the live apps are linked on this page, and he's at yash.parab@rwth-aachen.de.",
+         de:"Ich bin der Portfolio-Bot, also ist das eine voreingenommene Antwort — aber hier der ehrliche Fall.\n\nDie meisten Marktanalysten können den Bericht schreiben. Weniger können das Tool bauen, das ihn erzeugt. Yash macht beides: er liefert das Wettbewerbsprofil UND schreibt den Scraper, der 90% der Recherchezeit einspart.\n\nDas zieht sich durch — die BA3F-Thesis blieb nicht beim Framework, sondern wurde ein funktionierender Classifier. Das Earnings-Projekt blieb nicht beim Modell, sondern kam mit SHAP-Erklärungen.\n\nWenn du jemanden brauchst, der zwischen Geschäftsfrage und Daten sitzt und am Ende etwas Nutzbares liefert, passt das.\n\nUrteile selbst: die Live-Apps sind hier verlinkt, und er ist unter yash.parab@rwth-aachen.de erreichbar."} },
+  ],
+
   logosLabel:{en:"Background",de:"Hintergrund"},
   logos:[
     { name:"Fraunhofer FHR",    src:"logos/fraunhofer fhr.png",  url:"https://www.fhr.fraunhofer.de/" },
@@ -535,7 +656,7 @@ const DATA = {
       points:[{en:"Strategy Management, AI & Data Analytics, Finance Management, Marketing.",de:"Strategisches Management, KI & Data Analytics, Finance Management, Marketing."}] },
     { role:{en:"B.Tech. Mechanical Engineering",de:"B.Tech. Maschinenbau"},
       org:"KJ Somaiya College of Engineering (Mumbai University)", when:"Aug 2016 – Oct 2020", place:"GPA 1.4 (DE equiv.)",
-      points:[{en:"Thesis: Amphibious Garbage Collector Robot (design & simulation).",de:"Abschlussarbeit: Amphibischer Müllsammler-Roboter (Design & Simulation)."}] },
+      points:[{en:"Thesis: Amphibious Waste Collector Robot (design & simulation).",de:"Abschlussarbeit: Amphibischer Müllsammler-Roboter (Design & Simulation)."}] },
   ],
 
   contact:[
@@ -547,7 +668,7 @@ const DATA = {
 };
 
 /* =========================================================================
-   UI STRINGS (nav, section headers) — EN / DE
+   UI STRINGS I18N (nav, section headers) — EN / DE
    ========================================================================= */
 const I18N = {
   en:{ brand:"Yash <b>Parab</b>", nav_work:"Work", nav_about:"About", nav_exp:"Experience", nav_edu:"Education", nav_contact:"Contact",
@@ -562,7 +683,8 @@ const I18N = {
     edu_kicker:"EDUCATION", edu_title:"Studies & credentials",
     contact_kicker:"CONTACT", contact_title:"Let's talk",
     contact_sub:"Open to roles in market research, business strategy, ai engineering, data analytics, and entrepreneurial finance.",
-    res_kicker:"RESUME", res_title:"Resume", res_sub:"Grab a copy, or have it sent to your inbox.", res_dl:"Download PDF", res_mail:"Email it to me"},
+    res_kicker:"RESUME", res_title:"Resume", res_sub:"Grab a copy, or have it sent to your inbox.", res_dl:"Download PDF", res_mail:"Email it to me",
+    chat_chips:"QUICK QUESTIONS", chat_send:"Send"},
   de:{ brand:"Yash <b>Parab</b>", nav_work:"Arbeit", nav_about:"Über mich", nav_exp:"Erfahrung", nav_edu:"Ausbildung", nav_contact:"Kontakt",
     hero_kicker:"Markt & Strategie · Entrepreneurial Finance · Daten & ML-Analytik · Prozesse & Operations",
     hero_avail:"Sofort verfügbar · Offen für Festanstellung & freie Mitarbeit",
@@ -575,7 +697,8 @@ const I18N = {
     edu_kicker:"AUSBILDUNG", edu_title:"Studium & Qualifikationen",
     contact_kicker:"KONTAKT", contact_title:"Sprechen wir",
     contact_sub:"Offen für Rollen in Marktforschung, Geschäftsstrategie, KI-engineering, Datenanalysierung, und Entrepreneurial Finance.",
-    res_kicker:"LEBENSLAUF", res_title:"Lebenslauf", res_sub:"Kopie herunterladen oder per E-Mail zusenden lassen.", res_dl:"PDF herunterladen", res_mail:"Per E-Mail senden"},
+    res_kicker:"LEBENSLAUF", res_title:"Lebenslauf", res_sub:"Kopie herunterladen oder per E-Mail zusenden lassen.", res_dl:"PDF herunterladen", res_mail:"Per E-Mail senden",
+    chat_chips:"SCHNELLE FRAGEN", chat_send:"Senden"},
 };
 
 /* =========================================================================
@@ -673,8 +796,88 @@ function renderLogos(){
   });
 }
 
+/* =========================================================================
+   CHATBOX
+   ========================================================================= */
+let chatTypeTimer=null, chatPlaceTimer=null;
+
+function renderChat(){
+  const log=document.getElementById("termlog"), chips=document.getElementById("termchips");
+  if(!log||!chips)return;
+  log.innerHTML=""; chips.innerHTML="";
+  chatSay(t(DATA.chatIntro),false);
+  DATA.qa.forEach((item,i)=>{
+    const b=el("button","chip",t(item.q));
+    b.addEventListener("click",()=>chatAsk(t(item.q)));
+    chips.appendChild(b);
+  });
+}
+
+function chatSay(text,isYou){
+  const log=document.getElementById("termlog");
+  const d=el("div","msg "+(isYou?"you":"bot"),text);
+  log.appendChild(d);
+  log.scrollTop=log.scrollHeight;
+  return d;
+}
+
+function chatFind(input){
+  const q=input.toLowerCase();
+  let best=null,bestScore=0;
+  DATA.qa.forEach(item=>{
+    let score=0;
+    item.keys.forEach(k=>{ if(q.includes(k)) score+=k.length; });
+    if(score>bestScore){bestScore=score;best=item;}
+  });
+  return bestScore>=3?best:null;
+}
+
+function chatAsk(text){
+  if(!text.trim())return;
+  chatSay(text,true);
+  const hit=chatFind(text);
+  const answer=hit?t(hit.a):t(DATA.chatFallback);
+  const node=chatSay("",false);
+  const cur=el("span","cursor"); node.appendChild(cur);
+  clearTimeout(chatTypeTimer);
+  let i=0;
+  const log=document.getElementById("termlog");
+  (function type(){
+    if(i<=answer.length){
+      node.textContent=answer.slice(0,i);
+      node.appendChild(cur);
+      log.scrollTop=log.scrollHeight;
+      i+=2;
+      chatTypeTimer=setTimeout(type,8);
+    } else { cur.remove(); }
+  })();
+}
+
+function initChat(){
+  const inp=document.getElementById("terminput"), send=document.getElementById("termsend");
+  if(!inp||!send)return;
+  const go=()=>{ chatAsk(inp.value); inp.value=""; };
+  send.addEventListener("click",go);
+  inp.addEventListener("keydown",e=>{ if(e.key==="Enter") go(); });
+
+  // typewriter placeholder cycling through the questions
+  clearInterval(chatPlaceTimer);
+  let qi=0,ci=0,del=false;
+  chatPlaceTimer=setInterval(()=>{
+    if(document.activeElement===inp){ inp.placeholder=""; return; }
+    const word=t(DATA.qa[qi].q);
+    if(!del){
+      ci++; inp.placeholder=word.slice(0,ci);
+      if(ci>=word.length){ del=true; setTimeout(()=>{},900); }
+    } else {
+      ci-=3; inp.placeholder=word.slice(0,Math.max(0,ci));
+      if(ci<=0){ del=false; qi=(qi+1)%DATA.qa.length; }
+    }
+  },55);
+}
+
 function renderAll(){
-  applyI18nStrings();renderStats();renderLogos();renderChapters();renderAbout();
+  applyI18nStrings();renderStats();renderLogos();renderChapters();renderAbout();renderChat();
   renderTimeline("exp",DATA.experience,false);
   renderTimeline("edu",DATA.education,true);
   renderContact();
@@ -750,6 +953,7 @@ document.getElementById("yr").textContent=new Date().getFullYear();
 renderAll();
 initRotor();
 initTheme();
+initChat();
 initLang();
 initNav();
 initReveal();
