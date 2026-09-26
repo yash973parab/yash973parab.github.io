@@ -398,7 +398,7 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--ink-fain
       <p class="sec-sub" data-i18n="res_sub">Grab a copy, or have it sent to your inbox.</p>
     </div>
     <div class="res-row reveal">
-      <a href="Yash_Parab_MasterCV.pdf" download="Yash_Parab_CV.pdf" class="btn btn-primary" data-i18n="res_dl">Download PDF</a>
+            <a href="Yash_Parab_MasterCV.pdf" download id="cvlink" class="btn btn-primary" data-i18n="res_dl">Download PDF</a>
       <a href="mailto:yash.parab@rwth-aachen.de?subject=CV%20request&body=Hi%20Yash%2C%20could%20you%20send%20me%20your%20CV%3F" class="btn btn-ghost" data-i18n="res_mail">Email it to me</a>
     </div>
   </section>
@@ -658,7 +658,10 @@ const DATA = {
       org:"KJ Somaiya College of Engineering (Mumbai University)", when:"Aug 2016 – Oct 2020", place:"GPA 1.4 (DE equiv.)",
       points:[{en:"Thesis: Amphibious Waste Collector Robot (design & simulation).",de:"Abschlussarbeit: Amphibischer Müllsammler-Roboter (Design & Simulation)."}] },
   ],
-
+  
+  cv:{ en:{file:"Yash_Parab_MasterCV.pdf", as:"Yash_Parab_CV.pdf"},
+       de:{file:"Yash_Parab_Lebenslauf.pdf", as:"Yash_Parab_Lebenslauf.pdf"} },
+  
   contact:[
     { k:"Email", v:"yash.parab@rwth-aachen.de", url:"mailto:yash.parab@rwth-aachen.de", ico:"@" },
     { k:"Phone", v:"+49 176 4808 5127", url:"tel:+4917648085127", ico:"☎" },
@@ -784,6 +787,13 @@ function applyI18nStrings(){
   document.documentElement.lang=LANG;
 }
 
+function renderCV(){
+  const a=document.getElementById("cvlink"); if(!a) return;
+  const c=t(DATA.cv);
+  a.href=c.file;
+  a.setAttribute("download",c.as);
+}
+
 function renderLogos(){
   const c=document.getElementById("logos");if(!c)return;c.innerHTML="";
   c.appendChild(el("span","lbl",t(DATA.logosLabel)));
@@ -877,7 +887,7 @@ function initChat(){
 }
 
 function renderAll(){
-  applyI18nStrings();renderStats();renderLogos();renderChapters();renderAbout();renderChat();
+  applyI18nStrings();renderStats();renderCV();renderLogos();renderChapters();renderAbout();renderChat();
   renderTimeline("exp",DATA.experience,false);
   renderTimeline("edu",DATA.education,true);
   renderContact();
