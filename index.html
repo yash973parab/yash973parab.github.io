@@ -262,6 +262,9 @@ section{padding:60px 0;border-top:1px solid var(--line)}
 .cc .ico{width:38px;height:38px;border-radius:9px;background:var(--accent-soft);display:grid;place-items:center;color:var(--accent-ink);flex:none;font-weight:700;font-size:15px}
 .cc .k{font-size:12px;color:var(--ink-faint)}
 .cc .v{font-size:14.5px;font-weight:600;word-break:break-all}
+.cc .v .ml{text-decoration:none;word-break:normal;overflow-wrap:anywhere;transition:color .2s}
+.cc .v .ml:hover{color:var(--accent);text-decoration:underline}
+.cc .v .sep{color:var(--ink-faint);font-weight:400;margin:0 2px}
 @media(max-width:620px){.contact-grid{grid-template-columns:1fr}.contact-wrap{padding:28px}}
 
 /* resume buttons */
@@ -395,11 +398,11 @@ footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--ink-fain
     <div class="sec-head reveal">
       <div class="sec-kicker" data-i18n="res_kicker">RESUME</div>
       <h2 class="sec-title" data-i18n="res_title">Resume</h2>
-      <p class="sec-sub" data-i18n="res_sub">Grab a copy, or have it sent to your inbox.</p>
+      <p class="sec-sub" data-i18n="res_sub">Grab a copy of my CV.</p>
     </div>
     <div class="res-row reveal">
             <a href="Yash_Parab_MasterCV.pdf" download id="cvlink" class="btn btn-primary" data-i18n="res_dl">Download PDF</a>
-      <a href="mailto:yash.parab@rwth-aachen.de?subject=CV%20request&body=Hi%20Yash%2C%20could%20you%20send%20me%20your%20CV%3F" class="btn btn-ghost" data-i18n="res_mail">Email it to me</a>
+      <!-- <a href="mailto:yash.parab@rwth-aachen.de?subject=CV%20request&body=Hi%20Yash%2C%20could%20you%20send%20me%20your%20CV%3F" class="btn btn-ghost" data-i18n="res_mail">Email it to me</a> -->
     </div>
   </section>
 </div>
@@ -475,8 +478,8 @@ const DATA = {
 
     { keys:["relocat","available","availability","hire him","notice","start","visa","umzug","verfügbar","where is he","based","location"],
       q:{en:"Is he open to relocation?",de:"Ist er umzugsbereit?"},
-      a:{en:"He's based in Aachen, Germany and is available immediately, open to both full-time and contract roles.\n\nOn relocation: yes, he's open to it — within Germany and internationally. He's already relocated once from Mumbai to Aachen for his Master's, so it's not a hypothetical.\n\nFor specifics on timing or work authorisation, best to ask him directly at yash.parab@rwth-aachen.de.",
-         de:"Er lebt in Aachen und ist sofort verfügbar — offen für Festanstellung und freie Mitarbeit.\n\nZum Umzug: ja, grundsätzlich offen, innerhalb Deutschlands und international. Er ist bereits einmal von Mumbai nach Aachen für sein Masterstudium umgezogen.\n\nFür Details zu Zeitpunkt oder Arbeitserlaubnis schreib ihm direkt: yash.parab@rwth-aachen.de."} },
+      a:{en:"He's based in Aachen, Germany and is available immediately, open to both full-time and contract roles.\n\nOn relocation: yes, he's open to it — within Germany and internationally. He's already relocated once from Mumbai to Aachen for his Master's, so it's not a hypothetical.\n\nFor specifics on timing or work authorisation, best to ask him directly at yash.mahadev.parab@gmail.com / yash.parab@rwth-aachen.de.",
+         de:"Er lebt in Aachen und ist sofort verfügbar — offen für Festanstellung und freie Mitarbeit.\n\nZum Umzug: ja, grundsätzlich offen, innerhalb Deutschlands und international. Er ist bereits einmal von Mumbai nach Aachen für sein Masterstudium umgezogen.\n\nFür Details zu Zeitpunkt oder Arbeitserlaubnis schreib ihm direkt: yash.mahadev.parab@gmail.com / yash.parab@rwth-aachen.de."} },
 
     { keys:["consulting","bcg","mercedes","sony","pwc","case stud","strategy project","beratung","pricing"],
       q:{en:"What consulting projects has he done?",de:"Welche Beratungsprojekte hat er gemacht?"},
@@ -495,8 +498,8 @@ const DATA = {
 
     { keys:["why hire","why should","strength","good fit","stand out","best","einstellen","warum"],
       q:{en:"Why should I hire him?",de:"Warum sollte ich ihn einstellen?"},
-      a:{en:"I'm the portfolio bot, so treat this as a biased answer — but here's the honest case.\n\nMost market research analysts can write the report. Fewer can build the tool that generates it. Yash does both: he'll deliver the competitor profile AND write the scraper that cut 90% of the scouting time to get there.\n\nThat combination shows up repeatedly — the BA3F thesis didn't stop at a framework, it shipped as a working classifier. The earnings project didn't stop at a model, it shipped with SHAP explanations so a non-technical reader can interrogate it.\n\nIf you need someone who can sit between the business question and the data, and produce something usable at the end rather than a slide deck, that's the fit.\n\nIf you'd rather judge for yourself: the live apps are linked on this page, and he's at yash.parab@rwth-aachen.de.",
-         de:"Ich bin der Portfolio-Bot, also ist das eine voreingenommene Antwort — aber hier der ehrliche Fall.\n\nDie meisten Marktanalysten können den Bericht schreiben. Weniger können das Tool bauen, das ihn erzeugt. Yash macht beides: er liefert das Wettbewerbsprofil UND schreibt den Scraper, der 90% der Recherchezeit einspart.\n\nDas zieht sich durch — die BA3F-Thesis blieb nicht beim Framework, sondern wurde ein funktionierender Classifier. Das Earnings-Projekt blieb nicht beim Modell, sondern kam mit SHAP-Erklärungen.\n\nWenn du jemanden brauchst, der zwischen Geschäftsfrage und Daten sitzt und am Ende etwas Nutzbares liefert, passt das.\n\nUrteile selbst: die Live-Apps sind hier verlinkt, und er ist unter yash.parab@rwth-aachen.de erreichbar."} },
+      a:{en:"I'm the portfolio bot, so treat this as a biased answer — but here's the honest case.\n\nMost market research analysts can write the report. Fewer can build the tool that generates it. Yash does both: he'll deliver the competitor profile AND write the scraper that cut 90% of the scouting time to get there.\n\nThat combination shows up repeatedly — the BA3F thesis didn't stop at a framework, it shipped as a working classifier. The earnings project didn't stop at a model, it shipped with SHAP explanations so a non-technical reader can interrogate it.\n\nIf you need someone who can sit between the business question and the data, and produce something usable at the end rather than a slide deck, that's the fit.\n\nIf you'd rather judge for yourself: the live apps are linked on this page, and he's at yash.mahadev.parab@gmail.com / yash.parab@rwth-aachen.de.",
+         de:"Ich bin der Portfolio-Bot, also ist das eine voreingenommene Antwort — aber hier der ehrliche Fall.\n\nDie meisten Marktanalysten können den Bericht schreiben. Weniger können das Tool bauen, das ihn erzeugt. Yash macht beides: er liefert das Wettbewerbsprofil UND schreibt den Scraper, der 90% der Recherchezeit einspart.\n\nDas zieht sich durch — die BA3F-Thesis blieb nicht beim Framework, sondern wurde ein funktionierender Classifier. Das Earnings-Projekt blieb nicht beim Modell, sondern kam mit SHAP-Erklärungen.\n\nWenn du jemanden brauchst, der zwischen Geschäftsfrage und Daten sitzt und am Ende etwas Nutzbares liefert, passt das.\n\nUrteile selbst: die Live-Apps sind hier verlinkt, und er ist unter yash.mahadev.parab@gmail.com / yash.parab@rwth-aachen.de erreichbar."} },
   ],
 
   logosLabel:{en:"Background",de:"Hintergrund"},
@@ -663,7 +666,7 @@ const DATA = {
        de:{file:"Yash_Parab_Lebenslauf.pdf", as:"Yash_Parab_Lebenslauf.pdf"} },
   
   contact:[
-    { k:"Email", v:"yash.parab@rwth-aachen.de", url:"mailto:yash.parab@rwth-aachen.de", ico:"@" },
+    { k:"Email", emails:["yash.mahadev.parab@gmail.com","yash.parab@rwth-aachen.de"], ico:"@"},
     { k:"Phone", v:"+49 176 4808 5127", url:"tel:+4917648085127", ico:"☎" },
     { k:"LinkedIn", v:"in/yash-973-parab", url:"https://www.linkedin.com/in/yash-973-parab/", ico:"in" },
     { k:"Location", v:"Aachen, Germany", url:"#", ico:"◎" },
@@ -686,7 +689,7 @@ const I18N = {
     edu_kicker:"EDUCATION", edu_title:"Studies & credentials",
     contact_kicker:"CONTACT", contact_title:"Let's talk",
     contact_sub:"Open to roles in market research, business strategy, ai engineering, data analytics, and entrepreneurial finance.",
-    res_kicker:"RESUME", res_title:"Resume", res_sub:"Grab a copy, or have it sent to your inbox.", res_dl:"Download PDF", res_mail:"Email it to me",
+    res_kicker:"RESUME", res_title:"Resume", res_sub:"Grab a copy of my CV.", res_dl:"Download PDF", res_mail:"Email it to me",
     chat_chips:"QUICK QUESTIONS", chat_send:"Send"},
   de:{ brand:"Yash <b>Parab</b>", nav_work:"Arbeit", nav_about:"Über mich", nav_exp:"Erfahrung", nav_edu:"Ausbildung", nav_contact:"Kontakt",
     hero_kicker:"Markt & Strategie · Entrepreneurial Finance · Daten & ML-Analytik · Prozesse & Operations",
@@ -700,7 +703,7 @@ const I18N = {
     edu_kicker:"AUSBILDUNG", edu_title:"Studium & Qualifikationen",
     contact_kicker:"KONTAKT", contact_title:"Sprechen wir",
     contact_sub:"Offen für Rollen in Marktforschung, Geschäftsstrategie, KI-engineering, Datenanalysierung, und Entrepreneurial Finance.",
-    res_kicker:"LEBENSLAUF", res_title:"Lebenslauf", res_sub:"Kopie herunterladen oder per E-Mail zusenden lassen.", res_dl:"PDF herunterladen", res_mail:"Per E-Mail senden",
+    res_kicker:"LEBENSLAUF", res_title:"Lebenslauf", res_sub:"Hier können Sie meinen Lebenslauf herunterladen.", res_dl:"PDF herunterladen", res_mail:"Per E-Mail senden",
     chat_chips:"SCHNELLE FRAGEN", chat_send:"Senden"},
 };
 
@@ -771,8 +774,15 @@ function renderTimeline(id,arr,isEdu){
 }
 
 function renderContact(){
-    const c=document.getElementById("contactgrid");c.innerHTML="";
+  const c=document.getElementById("contactgrid");c.innerHTML="";
   DATA.contact.forEach(x=>{
+    if(x.emails){
+      const d=el("div","cc");
+      const links=x.emails.map(e=>`<a class="ml" href="mailto:${e}">${e}</a>`).join(' <span class="sep">/</span> ');
+      d.innerHTML=`<span class="ico">${x.ico}</span><span><span class="k">${x.k}</span><br><span class="v">${links}</span></span>`;
+      c.appendChild(d);
+      return;
+    }
     const a=el("a","cc");a.href=x.url;if(x.url.startsWith("http"))a.target="_blank";
     a.innerHTML=`<span class="ico">${x.ico}</span><span><span class="k">${x.k}</span><br><span class="v">${x.v}</span></span>`;
     c.appendChild(a);
